@@ -196,7 +196,7 @@ def generate_and_upload_image(title):
             model = "gemini-2.0-flash-exp-image-generation"
             contents = [types.Content(
                 role="user",
-                parts=[types.Part.from_text(text=f"""Create a realistic and visually appealing blog header image for the topic: "{title}". Include the title text "{title}" overlaid on the image as a stylish, readable heading.Use clean typography that fits the blog's aesthetic. The title should be clearly visible but not overpower the image.""")]
+                parts=[types.Part.from_text(text=f"""Create a realistic and visually appealing blog header image for the topic: "{title}". Include the title text "{title}" overlaid on the image as a stylish, readable heading.Use clean typography that fits the blog's aesthetic.The image size should be in a 16:9 aspect ratio. The title should be clearly visible but not overpower the image.""")]
             )]
             response = client.models.generate_content(
                 model=model,
