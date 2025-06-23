@@ -1,0 +1,1 @@
+# cosy-st-ar-gen-all
