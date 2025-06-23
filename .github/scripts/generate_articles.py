@@ -32,7 +32,7 @@ PROCESSED_KEYWORDS_FILE = "data/processed_keywords.txt"
 GENERATED_KEYWORDS_FILE = "data/keywords-generated.txt"  # New file for successfully generated keywords
 LINKS_FILE = "data/links.txt"  # New file for tracking links
 ARTICLES_PER_RUN = 28
-TOP_LINKS_COUNT = 70  # Number of top relevant links to include
+TOP_LINKS_COUNT = 20  # Number of top relevant links to include
 
 # Ensure output directories exist
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -55,7 +55,7 @@ class APIKeyManager:
         self.api_keys = self._load_api_keys()
         self.current_key_index = 0
         self.key_usage_count = {}
-        self.max_requests_per_key = 100  # Leave some buffer below 500 limit
+        self.max_requests_per_key = 60  # Leave some buffer below 500 limit
         self.failed_keys = set()  # Track keys that have failed
         
         # Initialize usage counters
@@ -419,7 +419,7 @@ def generate_article(prompt):
             if attempt == max_retries - 1:
                 return f"Error generating article after {max_retries} attempts: {e}"
 
-def send_email_notification(titles, article_urls, recipient_email="beacleaner0@gmail.com"):
+def send_email_notification(titles, article_urls, recipient_email="homecosycreation@gmail.com"):
     """Send email notification about generated articles"""
     from_email = "limon.working@gmail.com"
     app_password = os.environ.get("EMAIL_PASSWORD")
@@ -519,7 +519,7 @@ def append_processed_keywords(keywords, urls, filename=PROCESSED_KEYWORDS_FILE):
             
             f.write(f"## Batch processed on {timestamp}\n")
             for keyword, url in zip(keywords, urls):
-                f.write(f"[{url}\n")
+                f.write(f"{url}\n")
             f.write("\n")  # Add a blank line between batches
         return True
     except Exception as e:
