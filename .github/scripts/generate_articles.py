@@ -156,7 +156,7 @@ def save_binary_file(file_name, data):
     with open(file_name, "wb") as f:
         f.write(data)
 
-def compress_image(image_path, quality=85):
+def compress_image(image_path, quality=65):
     try:
         with Image.open(image_path) as img:
             webp_path = f"{os.path.splitext(image_path)[0]}.webp"
@@ -196,7 +196,7 @@ def generate_and_upload_image(title):
             model = "gemini-2.0-flash-exp-image-generation"
             contents = [types.Content(
                 role="user",
-                parts=[types.Part.from_text(text=f"""Create a realistic and visually appealing blog header image for the topic: "{title}". Include the title text "{title}" overlaid on the image as a stylish, readable heading.Use clean typography that fits the blog's aesthetic. The title should be clearly visible but not overpower the image.""")]
+                parts=[types.Part.from_text(text=f"""Create a realistic and visually appealing blog header image for the topic: "{title}".The image should be in a 16:9 aspect ratio, suitable for use as a website banner.Include the title text "{title}" overlaid on the image in a stylish, readable font. Ensure the typography fits a modern, clean blog aesthetic. The text should be clearly visible but not overpower the visual content.""")]
             )]
             response = client.models.generate_content(
                 model=model,
@@ -210,7 +210,7 @@ def generate_and_upload_image(title):
             if response.candidates and response.candidates[0].content.parts:
                 inline_data = response.candidates[0].content.parts[0].inline_data
                 file_ext = mimetypes.guess_extension(inline_data.mime_type)
-                original_file = f"generated_image_{int(time.time())}{file_ext}"
+                original_file = f"blog_image_{int(time.time())}{file_ext}"
                 save_binary_file(original_file, inline_data.data)
 
                 # Compress and convert to WebP
@@ -296,7 +296,7 @@ def create_article_prompt(title, article_number, image_url):
     tomorrow = datetime.now() + timedelta(days=1)
     publish_date = tomorrow.strftime("%Y-%m-%d")
     slug = create_slug(title)
-    canonical_url = f"https://www.homeessentialsguide.com/{slug}"
+    canonical_url = f"https://www.cosyhomecreation.com/{slug}"
     
     # Get existing links from links.txt
     existing_links = get_existing_links()
